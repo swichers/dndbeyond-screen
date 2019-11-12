@@ -1,94 +1,29 @@
-{% set max_hp = character|max_hp %}
-{% set current_hp = max_hp - character.removedHitPoints %}
-{% set percentage_hp = current_hp / max_hp %}
-{% set hp_classes = html_classes('hp', {
-  'bg-danger text-white': percentage_hp <= 0.15,
-  'bg-warning text-white': percentage_hp > 0.15 and percentage_hp <= 0.50,
-  'bg-success text-white': percentage_hp > 0.50,
-}) %}
-{% set passive_abilities = {
-  'perception': {
-    'title': 'Passive Perception (WIS)',
-    'icon': 'fa-eye',
-  },
-  'investigation': {
-    'title': 'Passive Investigation (INT)',
-    'icon': 'fa-search',
-  },
-  'insight': {
-    'title': 'Passive Insight (WIS)',
-    'icon': 'fa-lightbulb-o',
-  }
-}
-%}
-<div class="character mb-1 mr-1 border rounded-lg align-items-start">
+<div class="character mb-1 mr-1 border rounded">
 
-  <h3 class="bg-dark text-light">
-    <p class="name mb-0 p-1"><a href="{{ character.readonlyUrl }}"
-                                class="text-light">{{ character.name|e }}</a>
-    </p>
-  </h3>
+  <div class="row">
+    <div class="col">
+      <h3 class="bg-dark text-light">
+        <p class="name mb-0 p-1 px-2"><a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a>
+        </p>
+      </h3>
+    </div>
+  </div>
 
   <div class="row p-2">
-    <div class="col-4 d-none d-xl-block">
+    <div class="col col-lg-4 d-none d-lg-block">
       <img src="{{ character.avatarUrl }}" title="{{ character.name|e }}"
            class="avatar img-fluid img-thumbnail"/>
     </div>
 
     <div class="col">
-      <ul class="list-group list-group-horizontal-lg  text-center" role="group"
-          style="font-size: larger">
-        <li class="list-group-item flex-fill ac text-nowrap"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Character Armor Class"
-        ><i
-            class="fa fa-shield"></i> {{ character|ac }} </li>
-
-
-        <li
-          class="list-group-item flex-fill text-nowrap {{ hp_classes }}"
-          data-toggle="tooltip"
-          data-placement="right"
-          title="Character health information">
-
-          <i class="fa fa-heartbeat"></i>
-          <span class="current">{{ current_hp }}</span>
-          <span class="max">{{ max_hp }}</span>
-          {% if character.temporaryHitPoints > 0 %}
-            <span
-              class="temporary badge badge-primary ml-1">{{ character.temporaryHitPoints }}</span>
-          {% endif %} </li>
-      </ul>
-
-      <ul class="passives list-group list-group-horizontal-lg mt-2  text-center"
-          role="group">
-        {% for name, details in passive_abilities %}
-          <li
-            class="list-group-item flex-fill text-nowrap"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="{{ details.title }}">{{ character|passive(name) }}<i
-              class="fa {{ details.icon }} ml-1"></i></li>
-        {% endfor %}
-      </ul>
+      {% include 'sheet/components/card-ac-health.html.twig' with {'character': character} only %}
+      {% include 'sheet/components/card-passive-scores.html.twig' with {'character': character} only %}
     </div>
-
   </div>
-
-  <div class="p-1 as-list">
-    {% for stat_group in [['str', 'dex', 'con'], ['int', 'wis', 'cha']] %}
-      <ul
-        class="list-group list-group-horizontal-lg justify-content-center flex-fill  text-center"
-        role="group">
-        {% for stat in stat_group %}
-          <li
-            class="list-group-item list-group-item-dark flex-fill col-lg-2 text-left">{{ stat|capitalize }}</li>
-          <li
-            class="list-group-item list-group-item-light flex-fill col-lg-2">{{ character|ability_score(stat) }}</li>
-        {% endfor %}
-      </ul>
-    {% endfor %}
+  <div class="p-1 row as-list">
+    <div class="col">
+      {% include 'sheet/components/card-ability-modifiers.html.twig' with {'character': character} only %}
+    </div>
   </div>
 </div>
 

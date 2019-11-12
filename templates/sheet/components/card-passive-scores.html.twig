@@ -1,0 +1,29 @@
+{% spaceless %}
+  {% set passive_abilities = {
+    'perception': {
+      'title': 'Passive Perception (WIS)',
+      'icon': 'fa-eye',
+    },
+    'investigation': {
+      'title': 'Passive Investigation (INT)',
+      'icon': 'fa-search',
+    },
+    'insight': {
+      'title': 'Passive Insight (WIS)',
+      'icon': 'fa-lightbulb-o',
+    }
+  } %}
+
+  <ul class="passives list-group list-group-horizontal-sm mt-2 text-center"
+      role="group">
+    {% for name, details in passive_abilities %}
+      <li
+        class="list-group-item flex-fill col col-sm-4 text-nowrap"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="{{ details.title }}">{{ character|passive(name) }}<i
+          class="fa {{ details.icon }} ml-1"></i></li>
+    {% endfor %}
+  </ul>
+
+{% endspaceless %}

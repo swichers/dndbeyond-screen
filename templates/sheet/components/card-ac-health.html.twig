@@ -1,0 +1,36 @@
+{% spaceless %}
+  {% set max_hp = character|max_hp %}
+  {% set current_hp = max_hp - character.removedHitPoints %}
+  {% set percentage_hp = current_hp / max_hp %}
+  {% set hp_classes = html_classes('hp', {
+    'bg-danger text-white': percentage_hp <= 0.15,
+    'bg-warning text-white': percentage_hp > 0.15 and percentage_hp <= 0.50,
+    'bg-success text-white': percentage_hp > 0.50,
+  }) %}
+  <ul class="list-group list-group-horizontal-sm text-center" role="group"
+      style="font-size: larger">
+    <li class="list-group-item flex-fill ac col col-sm-6 text-nowrap"
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Character Armor Class"
+    ><i
+        class="fa fa-shield-alt mr-1"></i>{{ character|ac }} </li>
+
+    <li
+      class="list-group-item flex-fill col col-sm-6 text-nowrap {{ hp_classes }}"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="Character health information">
+
+      <i class="fa fa-heartbeat mr-1"></i>
+      <span class="current">{{ current_hp }}</span>
+      <span class="max">{{ max_hp }}</span>
+      {% if character.temporaryHitPoints > 0 %}
+        <span
+          class="temporary badge badge-primary ml-1"
+          data-toggle="tooltip"
+          data-placement="right"
+          title="Temporary hit points">{{ character.temporaryHitPoints }}</span>
+      {% endif %} </li>
+  </ul>
+{% endspaceless %}

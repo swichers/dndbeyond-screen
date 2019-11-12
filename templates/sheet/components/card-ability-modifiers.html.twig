@@ -1,0 +1,23 @@
+{% spaceless %}
+  {% set ability_modifiers = {
+    'Strength': 'fa-dumbbell',
+    'Dexterity': 'fa-running',
+    'Constitution': 'fa-diagnoses',
+    'Intelligence': 'fa-book',
+    'Wisdom': 'fa-brain',
+    'Charisma': 'fa-grin-wink',
+  } %}
+
+  <ul
+    class="d-flex d-flex-wrap mb-0 justify-content-center list-inline text-center"
+    role="group">
+    {% for name, icon in ability_modifiers %}
+      <li
+        class="border flex-fill py-2 px-1"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        title="{{ name|capitalize }} modifier">{{ character|ability_score( name|lower ) }}
+        <i class="d-block fa {{ icon }}"></i></li>
+    {% endfor %}
+  </ul>
+{% endspaceless %}
