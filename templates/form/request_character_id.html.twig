@@ -5,16 +5,5 @@
 {% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-    <div class="form-errors">
-        {{ form_errors(form) }}
-    </div>
-
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.characterId) }}
-        </div>
-    </div>
-    {{ form_row(form.submit) }}
-    {{ form_end(form) }}
+    {{ form(form) }}
 {% endblock %}
