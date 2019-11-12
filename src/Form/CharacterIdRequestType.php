@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Validator\Constraints\ExistingCharacter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,6 +20,7 @@ class CharacterIdRequestType extends AbstractType {
         'constraints' => [
           new NotBlank(),
           new Positive(),
+          new ExistingCharacter(),
         ],
       ])
       ->add('submit', SubmitType::class, [
