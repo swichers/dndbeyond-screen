@@ -1,4 +1,3 @@
-{% spaceless %}
   {% set ability_modifiers = {
     'Strength': 'fa-dumbbell',
     'Dexterity': 'fa-running',
@@ -13,11 +12,10 @@
     role="group">
     {% for name, icon in ability_modifiers %}
       <li
-        class="border flex-fill py-2 px-1"
+        class="border flex-fill font-weight-bold py-2 px-1"
         data-toggle="tooltip"
         data-placement="bottom"
         title="{{ name|capitalize }} modifier">{{ character|ability_score( name|lower ) }}
-        <i class="d-block fa {{ icon }}"></i></li>
+        <i class="d-block text-muted fa {{ icon }}"></i></li>
     {% endfor %}
   </ul>
-{% endspaceless %}

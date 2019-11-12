@@ -1,12 +1,15 @@
+{% set percent_to_level = (character.currentXp / character|xp_to_level * 100)|round(2, 'floor') %}
 <div class="character border rounded h-100">
-
   <div class="row">
     <div class="col">
-      <h3 class="bg-dark text-light">
-        <p class="name mb-0 p-1 px-2"><a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a>
-        </p>
+      <h3 class="mb-0 bg-dark text-light">
+        <p class="name mb-0 p-1 px-2"><a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a></p>
       </h3>
     </div>
+  </div>
+
+  <div class="progress rounded-0">
+    <div class="progress-bar" role="progressbar" style="width: {{ percent_to_level }}%;" aria-valuenow="{{ percent_to_level }}" aria-valuemin="0" aria-valuemax="100">{{ percent_to_level }}%</div>
   </div>
 
   <div class="row p-2">

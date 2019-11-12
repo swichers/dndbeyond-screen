@@ -31,6 +31,7 @@ class CharacterCalculatorExtension extends AbstractExtension {
       new TwigFilter('ac', [$this, 'calculateCharacterAc']),
       new TwigFilter('max_hp', [$this, 'calculateCharacterMaxHp']),
       new TwigFilter('passive', [$this, 'calculatePassive']),
+      new TwigFilter('xp_to_level', [$this, 'calculateXpToLevel']),
     ];
   }
 
@@ -38,10 +39,7 @@ class CharacterCalculatorExtension extends AbstractExtension {
     return $this->characterCalculatorService->calculateAc($character);
   }
 
-  public function calculateCharacterAbilityScore(
-    array $character,
-    string $statName
-  ): int {
+  public function calculateCharacterAbilityScore(array $character, string $statName): int {
     return $this->characterCalculatorService->getStatMod($character, $statName);
   }
 
@@ -64,5 +62,9 @@ class CharacterCalculatorExtension extends AbstractExtension {
     }
 
     return 10 + $mod + $this->characterCalculatorService->getProficiencyModifier($character, $passiveName);
+  }
+
+  public function calculateXpToLevel(array $character) :int {
+    return $this->characterCalculatorService->getXpNeeded($character);
   }
 }

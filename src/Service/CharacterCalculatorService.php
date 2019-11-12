@@ -147,5 +147,37 @@ class CharacterCalculatorService {
     return !empty($modifiers) ? 2 : 0;
   }
 
+  public function getXpNeeded(array $character) {
+    $xp_per_level = [
+      0,
+      300,
+      900,
+      2700,
+      6500,
+      14000,
+      23000,
+      34000,
+      48000,
+      64000,
+      85000,
+      100000,
+      120000,
+      140000,
+      165000,
+      195000,
+      225000,
+      265000,
+      305000,
+      355000,
+    ];
+
+    $level = 0;
+    foreach ($character['classes'] as $class) {
+      $level += $class['level'];
+    }
+
+    return $xp_per_level[ min($level, count($xp_per_level) - 1) ];
+  }
+
 
 }
