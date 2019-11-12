@@ -11,10 +11,7 @@ class CharacterCalculatorService {
 
   protected $abilityScoreCalculator;
 
-  public function __construct(
-    ItemAcCalculatorService $itemAcCalculator,
-    AbilityScoreCalculatorService $abilityScoreCalculator
-  ) {
+  public function __construct(ItemAcCalculatorService $itemAcCalculator, AbilityScoreCalculatorService $abilityScoreCalculator) {
     $this->itemAcCalculator = $itemAcCalculator;
     $this->abilityScoreCalculator = $abilityScoreCalculator;
   }
@@ -118,33 +115,51 @@ class CharacterCalculatorService {
     return array_sum($modifiers);
   }
 
-  protected function getModifiersByType(array $characterModifiers, string $modifierType, string $modifierSubType = NULL) : array {
-
+  public function getModifiersByType(array $characterModifiers, string $modifierType, string $modifierSubType = NULL) : array {
     $matching = [];
 
     foreach ($characterModifiers as $group => $modifiers) {
-      foreach ($modifiers as $modifier) {
-        if (empty($modifier['type']) || empty($modifier['subType'])) {
-          continue;
-        }
-        elseif ($modifier['type'] !== $modifierType) {
-          continue;
-        }
-        elseif (!is_null($modifierSubType) && $modifier['subType'] !== $modifierSubType) {
-          continue;
-        }
 
-        $matching[] = $modifier;
+      $filtered = array_filter($modifiers, function ($item) use ($modifierType) {
+        return !empty($item['type']) && $modifierType === $item['type'];
+      });
+
+      if (!empty($modifierSubType)) {
+        $filtered = array_filter($filtered, function ($item) use ($modifierSubType) {
+          return !empty($item['subType']) && $modifierSubType === $item['subType'];
+        });
       }
+
+      $matching = array_merge($matching, $filtered ?: []);
     }
 
     return $matching;
   }
 
-  public function getProficiencyModifier(array $character, string $proficiencyName):int {
+  public function getPassiveScore(array $character, string $proficiencyName):int {
+    switch ($proficiencyName) {
+      case 'insight':
+      case 'perception':
+        $stat_mod = $this->getStatMod($character, 'wis');
+        break;
+      case 'investigation':
+        $stat_mod = $this->getStatMod($character, 'int');
+        break;
+      default:
+        $stat_mod = 0;
+    }
 
-    $modifiers = $this->getModifiersByType($character['modifiers'] ?? [], 'proficiency', $proficiencyName);
-    return !empty($modifiers) ? 2 : 0;
+    $skill_mod = 0;
+
+    $active_bonuses = $this->getModifiersByType($character['modifiers'], 'proficiency', $proficiencyName);
+    if (!empty($active_bonuses)) {
+      $skill_mod = $this->getProficiencyBonus($character);
+    }
+
+    $passive_bonuses = $this->getModifiersByType($character['modifiers'], 'bonus', 'passive-' . $proficiencyName);
+    $skill_mod += array_sum(array_column($passive_bonuses, 'value'));
+
+    return 10 + $stat_mod + $skill_mod;
   }
 
   public function getXpNeeded(array $character) {
@@ -179,5 +194,34 @@ class CharacterCalculatorService {
     return $xp_per_level[ min($level, count($xp_per_level) - 1) ];
   }
 
+  public function getProficiencyBonus(array $character) {
+    $skill_proficiency_by_level = [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+    ];
+
+    $level = array_sum(array_column($character['classes'], 'level'));
+    $level = max(1, min($level, 20));
+
+    return $skill_proficiency_by_level[$level - 1];
+  }
 
 }
