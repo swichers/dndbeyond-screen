@@ -19,8 +19,16 @@ class ScreenController extends AbstractController {
    * @Route(
    *   "/{characterId}",
    *   methods={"GET"},
-   *   name="campaign_by_character"
+   *   name="campaign_by_character",
+   *   requirements={"characterId"="\d+"}
    * )
+   *
+   * @param int $characterId
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   * @throws \App\Exception\MissingCharacterException
+   * @throws \App\Exception\PrivateCharacterException
+   * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
    */
   public function campaignByCharacter(int $characterId) {
     $character = $this->characterFetcher->get($characterId);
