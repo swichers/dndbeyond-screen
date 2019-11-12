@@ -21,7 +21,7 @@
     <section class="container-fluid">
       <div class="row">
         {% for character in characters %}
-          <div class="col-xl-3 col-md-4">
+          <div class="col-xl-3 col-md-4 mb-2">
             {% include 'sheet/character-card.html.twig' with {'character': character} only %}
           </div>
         {% endfor %}
