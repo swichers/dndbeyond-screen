@@ -125,15 +125,23 @@ class CharacterCalculatorService {
       return $character['overrideHitPoints'];
     }
 
-    $con = $this->getStatMod($character, 'con');
     $max_hp = 0;
     if (!empty($character['preferences']['hitPointType'])) {
+      $bonus_per_level_hp = $this->dataModifier->getTotalModifierValue($character['modifiers'], 'bonus', 'hit-points-per-level');
+
+      $con = $this->getStatMod($character, 'con');
 
       foreach ($character['classes'] as $class) {
-        $rounded_hp = ceil(($class['definition']['hitDice'] / 2) + 1);
-        $max_hp += $class['definition']['hitDice'] + ($con * $class['level']) + ($rounded_hp * ($class['level'] - 1));
-      }
+        $hit_die = $class['definition']['hitDice'];
+        $adjusted_level = $class['level'];
 
+        if (!empty($class['isStartingClass'])) {
+          $max_hp += $hit_die + $con;
+          $adjusted_level--;
+        }
+
+        $max_hp += (ceil(($hit_die / 2) + 1) + $con) * $adjusted_level + $bonus_per_level_hp * $class['level'];
+      }
     }
     else {
       $max_hp = $character['baseHitPoints'] ?? 0;
@@ -143,8 +151,6 @@ class CharacterCalculatorService {
 
     return $max_hp;
   }
-
-
 
   public function getPassiveScore(array $character, string $proficiencyName):int {
     switch ($proficiencyName) {
