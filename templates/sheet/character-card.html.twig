@@ -3,7 +3,14 @@
   <div class="row">
     <div class="col">
       <h3 class="mb-0 bg-dark text-light">
-        <p class="name mb-0 p-1 px-2"><a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a></p>
+        <p class="name mb-0 p-1 px-2">
+          {% if character.inspiration %}
+            <i class="fas fa-dice-d20 text-warning"
+               data-toggle="tooltip"
+               data-placement="bottom"
+              title="Inspiration"></i>
+          {% endif %}
+          <a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a></p>
       </h3>
     </div>
   </div>
