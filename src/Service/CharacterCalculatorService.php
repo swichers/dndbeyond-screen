@@ -43,16 +43,16 @@ class CharacterCalculatorService {
     if (!empty($equipped_shields)) {
       $shield_ac = max(array_map(function ($item) use ($item_ac_calculator, $dex_mod) {
         return $this->itemAcCalculator->calculateItemAc($item['definition'], $dex_mod, FALSE);
-      }, $equipped_shields) ?? [0]);
+      }, $equipped_shields) ?: [0]);
     }
 
     if (!empty($equipped_armor)) {
       $armor_ac = max(array_map(function ($item) use ($item_ac_calculator, $dex_mod) {
         return $item_ac_calculator->calculateItemAc($item['definition'], $dex_mod, FALSE);
-      }, $equipped_armor) ?? [0]);
+      }, $equipped_armor) ?: [0]);
     }
     else {
-      $unarmored_modifiers = $this->dataModifier->getModifiersByType($character['modifiers'], 'set', 'unarmored-armor-class');
+      $unarmored_modifiers = $this->dataModifier->getModifiersByType($character['modifiers'], 'set', 'unarmored-armor-class') ?: [];
       $armor_ac = max(array_map(function ($modifier) use ($character, $character_ac) {
         $ac = $character_ac;
         if (!empty($modifier['statId'])) {
@@ -64,7 +64,7 @@ class CharacterCalculatorService {
         }
 
         return $ac;
-      }, $unarmored_modifiers) ?? [0]);
+      }, $unarmored_modifiers) ?: [0]);
     }
 
     // Character modifiers will include item modifiers.
