@@ -14,11 +14,12 @@
     }
   } %}
 
-  <ul class="passives list-group list-group-horizontal-sm mt-2 text-center"
-      role="group">
+  <ul
+    class="passives list-group list-group-horizontal mt-2 text-center flex-wrap"
+    role="group">
     {% for name, details in passive_abilities %}
       <li
-        class="list-group-item flex-fill col col-sm-4 text-nowrap font-weight-bold"
+        class="list-group-item flex-fill text-nowrap font-weight-bold"
         data-toggle="tooltip"
         data-placement="bottom"
         title="{{ details.title }}">{{ character|passive(name) }}<i
