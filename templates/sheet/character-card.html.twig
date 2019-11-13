@@ -14,9 +14,17 @@
       </h3>
     </div>
   </div>
-
   <div class="progress rounded-0">
-    <div class="progress-bar" role="progressbar" style="width: {{ percent_to_level }}%;" aria-valuenow="{{ percent_to_level }}" aria-valuemin="0" aria-valuemax="100">{{ percent_to_level }}%</div>
+    <div class="progress-bar"
+         role="progressbar"
+        {% if character.themeColor.themeColor is defined %}
+          style="width: {{ percent_to_level }}%; background-color: {{ character.themeColor.themeColor }};"
+        {% else %}
+          style="width: {{ percent_to_level }}%;"
+        {% endif %}
+         aria-valuenow="{{ percent_to_level }}"
+         aria-valuemin="0"
+         aria-valuemax="100">{{ percent_to_level }}%</div>
   </div>
 
   <div class="row p-2">
