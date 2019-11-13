@@ -1,7 +1,7 @@
 {% set percent_to_level = (character.currentXp / character|xp_to_level * 100)|round(2, 'floor') %}
 <div class="character card h-100">
   <header class="card-header p-0">
-    <h3 class="mb-0 p-2 bg-dark text-light">
+    <h3 class="mb-0 p-2 bg-dark text-light text-truncate">
       {% if character.inspiration %}
         <i class="fas fa-dice-d20 text-warning"
            data-toggle="tooltip"
