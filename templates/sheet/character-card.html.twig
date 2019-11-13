@@ -1,6 +1,6 @@
 {% set percent_to_level = (character.currentXp / character|xp_to_level * 100)|round(2, 'floor') %}
 <div class="character border rounded h-100">
-  <div class="row">
+  <header class="row">
     <div class="col">
       <h3 class="mb-0 bg-dark text-light">
         <p class="name mb-0 p-1 px-2">
@@ -8,23 +8,25 @@
             <i class="fas fa-dice-d20 text-warning"
                data-toggle="tooltip"
                data-placement="bottom"
-              title="Inspiration"></i>
+               title="Inspiration"></i>
           {% endif %}
-          <a href="{{ character.readonlyUrl }}" class="text-light">{{ character.name|e }}</a></p>
+          <a href="{{ character.readonlyUrl }}"
+             class="text-light">{{ character.name|e }}</a></p>
       </h3>
     </div>
-  </div>
+  </header>
   <div class="progress rounded-0">
     <div class="progress-bar"
          role="progressbar"
-        {% if character.themeColor.themeColor is defined %}
-          style="width: {{ percent_to_level }}%; background-color: {{ character.themeColor.themeColor }};"
-        {% else %}
-          style="width: {{ percent_to_level }}%;"
-        {% endif %}
+      {% if character.themeColor.themeColor is defined %}
+        style="width: {{ percent_to_level }}%; background-color: {{ character.themeColor.themeColor }};"
+      {% else %}
+        style="width: {{ percent_to_level }}%;"
+      {% endif %}
          aria-valuenow="{{ percent_to_level }}"
          aria-valuemin="0"
-         aria-valuemax="100">{{ percent_to_level }}%</div>
+         aria-valuemax="100">{{ percent_to_level }}%
+    </div>
   </div>
 
   <div class="row p-2">
@@ -43,5 +45,21 @@
       {% include 'sheet/components/card-ability-modifiers.html.twig' with {'character': character} only %}
     </div>
   </div>
+
+  <footer class="row p-1 text-small">
+    <div class="container-fluid">
+      <div class="row">
+        {% for class in character.classes %}
+          <div class="col text-nowrap">
+            {% if class.subclassDefinition.name is defined %}
+              {{ class.subclassDefinition.name }},
+            {% endif %}
+            {{ class.definition.name }} <span
+              class="badge badge-info">{{ class.level }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </footer>
 </div>
 
