@@ -7,11 +7,14 @@ use App\Service\Calculator\ItemAcCalculatorService;
 
 class CharacterCalculatorService {
 
+  protected $dataModifier;
+
   protected $itemAcCalculator;
 
   protected $abilityScoreCalculator;
 
-  public function __construct(ItemAcCalculatorService $itemAcCalculator, AbilityScoreCalculatorService $abilityScoreCalculator) {
+  public function __construct(DataModifierService $dataModifier, ItemAcCalculatorService $itemAcCalculator, AbilityScoreCalculatorService $abilityScoreCalculator) {
+    $this->dataModifier = $dataModifier;
     $this->itemAcCalculator = $itemAcCalculator;
     $this->abilityScoreCalculator = $abilityScoreCalculator;
   }
@@ -23,29 +26,54 @@ class CharacterCalculatorService {
     $armor_ac = 0;
     $shield_ac = 0;
 
-    foreach ($character['inventory'] as $item) {
-      if (empty($item['equipped']) || empty($item['definition'])) {
-        continue;
-      }
+    $item_ac_calculator = $this->itemAcCalculator;
 
-      $definition = $item['definition'];
+    $equipped_items = array_filter($character['inventory'], function ($item) {
+      return !empty($item['equipped']) && !empty($item['definition']);
+    });
 
-      if (!empty($definition['baseItemId']) && $this->itemAcCalculator::ARMOR_SHIELD == $definition['baseItemId']) {
-        $shield_ac = max($shield_ac,
-          $this->itemAcCalculator->calculateItemAc($definition, $dex_mod));
-      }
-      elseif ($this->itemAcCalculator->isArmorItem($definition)) {
-        $armor_ac = max($armor_ac,
-          $this->itemAcCalculator->calculateItemAc($definition, $dex_mod));
-      }
+    $equipped_shields = array_filter($equipped_items, function ($item) use ($item_ac_calculator) {
+      return !empty($item['definition']['armorTypeId']) && $item_ac_calculator::ARMOR_TYPE_SHIELD === $item['definition']['armorTypeId'];
+    });
+
+    $equipped_armor = array_filter($equipped_items, function ($item) use ($item_ac_calculator) {
+      return $item_ac_calculator->isArmorItem($item['definition']) && $item_ac_calculator::ARMOR_TYPE_SHIELD !== $item['definition']['armorTypeId'];
+    });
+
+    if (!empty($equipped_shields)) {
+      $shield_ac = max(array_map(function ($item) use ($item_ac_calculator, $dex_mod) {
+        return $this->itemAcCalculator->calculateItemAc($item['definition'], $dex_mod, FALSE);
+      }, $equipped_shields) ?? [0]);
     }
 
-    return max($character_ac, $armor_ac) + $shield_ac;
+    if (!empty($equipped_armor)) {
+      $armor_ac = max(array_map(function ($item) use ($item_ac_calculator, $dex_mod) {
+        return $item_ac_calculator->calculateItemAc($item['definition'], $dex_mod, FALSE);
+      }, $equipped_armor) ?? [0]);
+    }
+    else {
+      $unarmored_modifiers = $this->dataModifier->getModifiersByType($character['modifiers'], 'set', 'unarmored-armor-class');
+      $armor_ac = max(array_map(function ($modifier) use ($character, $character_ac) {
+        $ac = $character_ac;
+        if (!empty($modifier['statId'])) {
+          $ac += $this->getStatMod($character, intval($modifier['statId']));
+        }
+
+        if (!empty($modifier['value'])) {
+          $ac += $modifier['value'];
+        }
+
+        return $ac;
+      }, $unarmored_modifiers) ?? [0]);
+    }
+
+    // Character modifiers will include item modifiers.
+    $bonus_ac = $this->dataModifier->getTotalModifierValue($character['modifiers'], 'bonus', 'armor-class');
+
+    return max($character_ac, $armor_ac) + $shield_ac + $bonus_ac ;
   }
 
-  public function getStatMod(array $character, string $statName): int {
-
-    $statName = strtolower($statName);
+  public function getStatMod(array $character, $statName): int {
 
     $stat_map = [
       1 => 'strength',
@@ -56,7 +84,14 @@ class CharacterCalculatorService {
       6 => 'charisma',
     ];
 
+    if (is_int($statName)) {
+      $statName = $stat_map[$statName] ?? '';
+    }
+
+    $statName = strtolower($statName);
+
     $stat_id = FALSE;
+
     foreach ($stat_map as $dndbeyond_id => $allowed_stat) {
       if ($statName === $allowed_stat || substr($allowed_stat, 0, 3) === $statName) {
         $stat_id = $dndbeyond_id;
@@ -79,7 +114,7 @@ class CharacterCalculatorService {
       return 0;
     }
 
-    $stats[$stat_id] += $this->getTotalModifierValue($character['modifiers'] ?? [], 'bonus', $stat_map[$stat_id] . '-score');
+    $stats[$stat_id] += $this->dataModifier->getTotalModifierValue($character['modifiers'] ?? [], 'bonus', $stat_map[$stat_id] . '-score');
 
     return $this->abilityScoreCalculator->calculateModifier($stats[$stat_id]);
   }
@@ -109,32 +144,7 @@ class CharacterCalculatorService {
     return $max_hp;
   }
 
-  protected function getTotalModifierValue(array $characterModifiers, string $modifierType, string $modifierSubType):int {
-    $modifiers = $this->getModifiersByType($characterModifiers, $modifierType, $modifierSubType);
-    $modifiers = array_column($modifiers, 'value');
-    return array_sum($modifiers);
-  }
 
-  public function getModifiersByType(array $characterModifiers, string $modifierType, string $modifierSubType = NULL) : array {
-    $matching = [];
-
-    foreach ($characterModifiers as $group => $modifiers) {
-
-      $filtered = array_filter($modifiers, function ($item) use ($modifierType) {
-        return !empty($item['type']) && $modifierType === $item['type'];
-      });
-
-      if (!empty($modifierSubType)) {
-        $filtered = array_filter($filtered, function ($item) use ($modifierSubType) {
-          return !empty($item['subType']) && $modifierSubType === $item['subType'];
-        });
-      }
-
-      $matching = array_merge($matching, $filtered ?: []);
-    }
-
-    return $matching;
-  }
 
   public function getPassiveScore(array $character, string $proficiencyName):int {
     switch ($proficiencyName) {
@@ -151,12 +161,12 @@ class CharacterCalculatorService {
 
     $skill_mod = 0;
 
-    $active_bonuses = $this->getModifiersByType($character['modifiers'], 'proficiency', $proficiencyName);
+    $active_bonuses = $this->dataModifier->getModifiersByType($character['modifiers'], 'proficiency', $proficiencyName);
     if (!empty($active_bonuses)) {
       $skill_mod = $this->getProficiencyBonus($character);
     }
 
-    $passive_bonuses = $this->getModifiersByType($character['modifiers'], 'bonus', 'passive-' . $proficiencyName);
+    $passive_bonuses = $this->dataModifier->getModifiersByType($character['modifiers'], 'bonus', 'passive-' . $proficiencyName);
     $skill_mod += array_sum(array_column($passive_bonuses, 'value'));
 
     return 10 + $stat_mod + $skill_mod;
