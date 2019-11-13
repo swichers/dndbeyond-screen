@@ -20,7 +20,9 @@
         "twig/html-extra": "^2.12"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.13"
+        "symfony/maker-bundle": "^1.13",
+        "symfony/profiler-pack": "^1.0",
+        "symfony/var-dumper": "4.3.*"
     },
     "config": {
         "preferred-install": {
