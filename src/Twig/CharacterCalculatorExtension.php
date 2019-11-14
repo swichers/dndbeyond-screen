@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-use App\Service\CharacterCalculatorService;
+use App\Service\Calculator\CharacterCalculatorService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

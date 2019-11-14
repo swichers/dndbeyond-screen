@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Calculator;
 
-use App\Service\Calculator\AbilityScoreCalculatorService;
-use App\Service\Calculator\ItemAcCalculatorService;
+use App\Service\DataModifierService;
 
 class CharacterCalculatorService {
 
