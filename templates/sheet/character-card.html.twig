@@ -1,16 +1,21 @@
 {% set percent_to_level = (character.currentXp / character|xp_to_level * 100)|round(2, 'floor') %}
-<div class="character card h-100">
-  <header class="card-header p-0">
-    <h3 class="mb-0 p-2 bg-dark text-light text-truncate">
+<div
+  class="character shadow card h-100">
+  <header class="card-header bg-dark text-light p-0">
+
+    <div class="p-2 d-flex flex-nowrap align-items-center">
       {% if character.inspiration %}
-        <i class="fas fa-dice-d20 text-warning"
+        <i class="fas fa-dice-d20 text-warning mr-1"
            data-toggle="tooltip"
            data-placement="bottom"
            title="Inspiration"></i>
       {% endif %}
-      <a href="{{ character.readonlyUrl }}"
-         class="text-light">{{ character.name|e }}</a>
-    </h3>
+      <h3 class="text-truncate flex-grow-1 mb-0"><a
+          href="{{ character.readonlyUrl }}"
+          class="text-light">{{ character.name|e }}</a>
+      </h3>
+    </div>
+
     <div class="progress rounded-0">
       <div class="progress-bar"
            role="progressbar"
@@ -25,7 +30,6 @@
       </div>
     </div>
   </header>
-
 
   <div class="card-body">
     <div class="row">
