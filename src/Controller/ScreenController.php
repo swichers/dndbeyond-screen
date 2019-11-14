@@ -52,4 +52,22 @@ class ScreenController extends AbstractController {
     ]);
   }
 
+  /**
+   * @Route(
+   *   "/{characterId}/update",
+   *   methods={"GET"},
+   *   name="sheet_update_character",
+   *   requirements={"characterId"="\d+"}
+   * )
+   *
+   * @param int $characterId
+   */
+  public function updateCharacter(int $characterId) {
+    $character = $this->characterFetcher->get($characterId);
+
+    return $this->render('sheet/character-card.html.twig', [
+      'character' => $character,
+    ]);
+  }
+
 }
