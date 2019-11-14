@@ -42,6 +42,35 @@
         {% include 'sheet/components/card-ability-modifiers.html.twig' with {'character': character} only %}
       </div>
     </div>
+
+    {% if character.classSpells[0].spells is not empty %}
+      <div class="row">
+        <div class="col mb-1">
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#spells-{{ character.id }}" aria-expanded="false" aria-controls="spells-{{ character.id }}">Spells</button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <div class="spells row collapse" id="spells-{{ character.id }}">
+            {% for class in character.classSpells %}
+              {% for spell in class.spells %}
+                {% if spell.prepared or spell.alwaysPrepared or spell.definition.level == 0 %}
+                  <div class="col-12">
+                    <span class="badge badge-info">{{ spell.definition.level }}</span>
+                    <a href="#"
+                       data-toggle="popover"
+                       data-trigger="focus"
+                       data-html="true"
+                       title="{{ spell.definition.name|e }}"
+                       data-content="{{ spell.definition.description }}"
+                    >{{ spell.definition.name }}</a></div>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
   </div>
 
   <footer class="card-footer text-muted">
