@@ -51,9 +51,16 @@
         <div class="w-100"></div>
         <div class="col">
           <div class="spells row collapse" id="spells-{{ character.id }}">
+            {% set physical_caster_ids = [] %}
+            {% for class in character.classes %}
+              {% if class.definition.name in ['Ranger', 'Sorcerer', 'Bard'] %}
+                {% set physical_caster_ids = physical_caster_ids|merge([class.id]) %}
+              {% endif %}
+            {% endfor %}
+
             {% for class in character.classSpells %}
               {% for spell in class.spells %}
-                {% if spell.prepared or spell.alwaysPrepared or spell.definition.level == 0 %}
+                {% if spell.prepared or spell.alwaysPrepared or spell.definition.level == 0 or class.characterClassId in physical_caster_ids %}
                   <div class="col-12">
                     <span class="badge badge-info">{{ spell.definition.level }}</span>
                     <a href="#"
@@ -70,7 +77,6 @@
         </div>
       </div>
     {% endif %}
-
   </div>
 
   <footer class="card-footer text-muted">
