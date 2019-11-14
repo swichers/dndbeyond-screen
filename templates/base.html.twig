@@ -69,15 +69,16 @@
             setInterval(function () {
                 var card = jQuery('.character [data-character-id=' + character_id + ']');
 
-                jQuery('.load-status', card).removeClass('invisible');
+                jQuery('.load-status', card).removeClass('d-none');
 
                 jQuery
                     .get('/' + character_id + '/update')
-                    .done(function (data) {
+                    .done(function (data, textStatus, jqXHR) {
                         jQuery(card).replaceWith(data);
                     })
-                    .fail(function () {
-                        jQuery('.load-status', card).addClass('invisible');
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        jQuery('.load-status', card).addClass('d-none');
+                        jQuery('.load-error', card).removeClass('d-none');
                     });
             }, 60 * 5 * 1000);
 

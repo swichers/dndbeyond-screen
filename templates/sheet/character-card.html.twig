@@ -17,8 +17,9 @@
           href="{{ character.readonlyUrl }}"
           class="text-light">{{ character.name|e }}</a>
       </h3>
-      <span class="load-status invisible spinner-grow text-primary" role="status"><span
+      <span class="load-status d-none spinner-grow text-primary" role="status"><span
           class="sr-only">Loading...</span></span>
+      <i class="load-error d-none text-danger fas fa-bomb"></i>
     </div>
 
     <div class="progress rounded-0">
