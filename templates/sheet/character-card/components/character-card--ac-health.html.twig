@@ -7,22 +7,27 @@
     'bg-success text-white': percentage_hp > 0.50,
   }) %}
 <ul class="list-group list-group-horizontal text-center flex-wrap" role="group">
-  <li class="list-group-item flex-fill ac text-nowrap"
-      data-toggle="tooltip"
-      data-placement="top"
-      title="Character Armor Class"
+  <li
+    class="list-group-item flex-fill ac text-nowrap"
+    data-toggle="tooltip"
+    data-placement="top"
+    title="Character Armor Class"
   ><i
-      class="fa fa-shield-alt mr-1"></i><span
-      class="font-weight-bold">{{ character|ac }}</span></li>
+      class="fa fa-shield-alt mr-1"
+    ></i><span
+      class="font-weight-bold"
+    >{{ character|ac }}</span></li>
 
   <li
     class="list-group-item flex-fill text-nowrap {{ hp_classes }}"
     data-toggle="tooltip"
     data-placement="top"
-    title="Character health information">
+    title="Character health information"
+  >
 
     <i
-      class="fa {{ percentage_hp > 0.50 ? 'fa-heart' : 'fa-heartbeat' }} mr-1"></i>
+      class="fa {{ percentage_hp > 0.50 ? 'fa-heart' : 'fa-heartbeat' }} mr-1"
+    ></i>
     <span class="current">{{ current_hp }}</span>
     <span class="max">{{ max_hp }}</span>
     {% if character.temporaryHitPoints > 0 %}
@@ -30,6 +35,7 @@
         class="temporary badge badge-primary ml-1"
         data-toggle="tooltip"
         data-placement="right"
-        title="Temporary hit points">{{ character.temporaryHitPoints }}</span>
+        title="Temporary hit points"
+      >{{ character.temporaryHitPoints }}</span>
     {% endif %} </li>
 </ul>

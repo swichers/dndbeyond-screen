@@ -16,13 +16,15 @@
 
   <ul
     class="passives list-group list-group-horizontal mt-2 text-center flex-wrap"
-    role="group">
+    role="group"
+  >
     {% for name, details in passive_abilities %}
       <li
         class="list-group-item flex-fill text-nowrap font-weight-bold"
         data-toggle="tooltip"
         data-placement="bottom"
-        title="{{ details.title }}">{{ character|passive(name) }}<i
+        title="{{ details.title }}"
+      >{{ character|passive(name) }}<i
           class="text-muted fa {{ details.icon }} ml-1"
         ></i></li>
     {% endfor %}

@@ -3,7 +3,8 @@
   id="character-{{ character.id }}"
   data-character-name="{{ character.name|e }}"
   data-character-id="{{ character.id }}"
-  data-last-rendered="{{ 'now'|date('U') }}">
+  data-last-rendered="{{ 'now'|date('U') }}"
+>
 
   <header class="card-header bg-dark text-light border-0 p-0">
     {% include 'sheet/character-card/character-card--header.html.twig' with {'character': character} only %}
