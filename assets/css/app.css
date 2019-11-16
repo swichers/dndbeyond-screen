@@ -1,0 +1,19 @@
+body {
+  font-size: 12pt;
+}
+
+.fa-heartbeat {
+  color: #FF0000;
+}
+
+.fa-heart {
+  color: #C7FFE1;
+}
+
+.fa-shield-alt {
+  color: #FFE359;
+}
+
+.character .hp .current::after {
+  content: " / ";
+}

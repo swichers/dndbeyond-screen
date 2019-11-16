@@ -8,13 +8,15 @@
 } %}
 <ul
   class="d-flex d-flex-wrap list-inline justify-content-center text-center"
-  role="group">
+  role="group"
+>
   {% for name, icon in ability_modifiers %}
     <li
       class="border flex-fill font-weight-bold py-2 px-1"
       data-toggle="tooltip"
       data-placement="bottom"
-      title="{{ name|capitalize }} modifier">{{ character|ability_score( name|lower ) }}
+      title="{{ name|capitalize }} modifier"
+    >{{ character|ability_score( name|lower ) }}
       <i class="d-block text-muted fa {{ icon }}"></i></li>
   {% endfor %}
 </ul>
