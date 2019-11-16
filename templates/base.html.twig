@@ -58,30 +58,73 @@
   integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
   crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-toggle="popover"]').popover();
-    });
+    class CharacterUpdater {
 
-    jQuery(document).ready(function () {
-        jQuery('.character').each(function (k, v) {
-            var character_id = jQuery(v).data('character-id');
-            setInterval(function () {
-                var card = jQuery('.character [data-character-id=' + character_id + ']');
+        timerInterval = 5 * 60 * 1000;
 
-                jQuery('.load-status', card).removeClass('d-none');
+        constructor(characterId) {
+            this.characterId = characterId;
+            this.startTimer();
+        }
 
-                jQuery
-                    .get('/' + character_id + '/update')
-                    .done(function (data, textStatus, jqXHR) {
-                        jQuery(card).replaceWith(data);
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-                        jQuery('.load-status', card).addClass('d-none');
-                        jQuery('.load-error', card).removeClass('d-none');
+        update() {
+            let that = this;
+            let url = '/' + this.characterId + '/update';
+
+            let card = document.querySelector(this.getCharacterSelector());
+            if (!card) {
+                return false;
+            }
+
+            card.querySelector('.load-status').classList.remove('d-none');
+
+            fetch(url, {cache: 'no-cache'})
+                .then((response) => {
+                    return response.text().then(data => {
+                        if (response.ok) {
+                            return data;
+                        }
+
+                        return Promise.reject({status: response.status, data});
                     });
-            }, 60 * 5 * 1000);
+                })
+                .then((data) => {
+                    card.outerHTML = data;
+                })
+                .catch((e) => {
+                    card.querySelector('.load-status').classList.add('d-none');
+                    card.querySelector('.load-error').classList.remove('d-none');
+                    that.stopTimer();
+                });
+        }
 
+        startTimer() {
+            this.timerId = setInterval(() => this.update(), this.timerInterval);
+        }
+
+        stopTimer() {
+            clearInterval(this.timerId);
+        }
+
+        getCharacterSelector() {
+            return '.character[data-character-id="' + this.characterId + '"]';
+        }
+    }
+
+    jQuery(document).ready(() => {
+        $('body').tooltip({
+            container: 'body',
+            selector: '[data-toggle="tooltip"]'
+        });
+        $('body').popover({
+            container: 'body',
+            selector: '[data-toggle="popover"]'
+        });
+
+        let character_updaters = {};
+        document.querySelectorAll('.character[data-character-id]').forEach((card) => {
+            let character_id = card.getAttribute('data-character-id');
+            character_updaters[character_id] = new CharacterUpdater(character_id);
         });
     });
 </script>

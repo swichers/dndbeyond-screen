@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Service\CharacterFetcherService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 
@@ -65,9 +67,14 @@ class ScreenController extends AbstractController {
   public function updateCharacter(int $characterId) {
     $character = $this->characterFetcher->get($characterId);
 
-    return $this->render('sheet/character-card.html.twig', [
-      'character' => $character,
+    $response = new Response($this->renderView('sheet/character-card.html.twig', ['character' => $character]), 200, [
+      'X-Character-Id' => $characterId,
     ]);
+    $response->setMaxAge(0);
+    $response->setLastModified(new DateTime());
+    $response->headers->addCacheControlDirective('no-cache', true);
+
+    return $response;
   }
 
 }
