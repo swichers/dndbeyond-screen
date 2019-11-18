@@ -1,0 +1,11 @@
+<div class="row">
+  {% for class in character.classes %}
+    <div class="col text-nowrap"><small>
+        {% if class.subclassDefinition.name is defined %}
+          {{ class.subclassDefinition.name }},
+        {% endif %}
+        {{ class.definition.name }} <span
+          class="badge badge-info">{{ class.level }}</span></small>
+    </div>
+  {% endfor %}
+</div>

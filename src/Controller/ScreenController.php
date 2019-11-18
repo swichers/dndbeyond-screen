@@ -48,7 +48,7 @@ class ScreenController extends AbstractController {
       }
     }
 
-    return $this->render('sheet/sheet-cards.html.twig', [
+    return $this->render('sheet/sheet--cards.html.twig', [
       'characters' => $characters,
       'campaign' => $character['campaign'],
     ]);
@@ -67,7 +67,7 @@ class ScreenController extends AbstractController {
   public function updateCharacter(int $characterId) {
     $character = $this->characterFetcher->get($characterId);
 
-    $response = new Response($this->renderView('sheet/character-card.html.twig', ['character' => $character]), 200, [
+    $response = new Response($this->renderView('sheet/character-card/character-card.html.twig', ['character' => $character]), 200, [
       'X-Character-Id' => $characterId,
     ]);
     $response->setMaxAge(0);

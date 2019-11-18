@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-xl-4 d-none d-xl-block text-center">
+    <img src="{{ character.avatarUrl }}" title="{{ character.name|e }}"
+         alt="Avatar" class="avatar img-fluid img-thumbnail"/>
+  </div>
+  <div class="col col-xl-8">
+    {% include 'sheet/character-card/components/character-card--ac-health.html.twig' with {'character': character} only %}
+    {% include 'sheet/character-card/components/character-card--passive-scores.html.twig' with {'character': character} only %}
+  </div>
+  <div class="w-100"></div>
+  <div class="col mt-2">
+    {% include 'sheet/character-card/components/character-card--ability-modifiers.html.twig' with {'character': character} only %}
+  </div>
+</div>
+
+{% include 'sheet/character-card/components/character-card--spells.html.twig' with {'character': character} only %}

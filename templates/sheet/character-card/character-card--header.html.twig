@@ -1,0 +1,32 @@
+{% set percent_to_level = (character.currentXp / character|xp_to_level * 100)|round(2, 'floor') %}
+
+<div class="p-2 d-flex flex-nowrap align-items-center">
+  {% if character.inspiration %}
+    <i class="fas fa-dice-d20 text-warning mr-1"
+       data-toggle="tooltip"
+       data-placement="bottom"
+       title="Inspiration"></i>
+  {% endif %}
+  <h3 class="text-truncate flex-grow-1 mb-0"><a
+      href="{{ character.readonlyUrl }}"
+      class="text-light">{{ character.name|e }}</a>
+  </h3>
+  <span class="load-status d-none spinner-grow text-primary" role="status"><span
+      class="sr-only">Loading...</span></span>
+  <i class="load-error d-none text-danger fas fa-bomb"></i>
+</div>
+
+<div class="progress rounded-0">
+  <div class="progress-bar"
+       role="progressbar"
+    {% if character.themeColor.themeColor is defined %}
+      style="width: {{ percent_to_level }}%; background-color: {{ character.themeColor.themeColor }};"
+    {% else %}
+      style="width: {{ percent_to_level }}%;"
+    {% endif %}
+       aria-valuenow="{{ percent_to_level }}"
+       aria-valuemin="0"
+       aria-valuemax="100">{{ percent_to_level }}%
+  </div>
+</div>
+

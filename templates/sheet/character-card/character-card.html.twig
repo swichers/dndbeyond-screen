@@ -1,0 +1,20 @@
+<div
+  class="character shadow card h-100"
+  id="character-{{ character.id }}"
+  data-character-name="{{ character.name|e }}"
+  data-character-id="{{ character.id }}"
+  data-last-rendered="{{ 'now'|date('U') }}">
+
+  <header class="card-header bg-dark text-light border-0 p-0">
+    {% include 'sheet/character-card/character-card--header.html.twig' with {'character': character} only %}
+  </header>
+
+  <div class="card-body">
+    {% include 'sheet/character-card/character-card--body.html.twig' with {'character': character} only %}
+  </div>
+
+  <footer class="card-footer text-muted">
+    {% include 'sheet/character-card/character-card--footer.html.twig' with {'character': character} only %}
+  </footer>
+</div>
+
