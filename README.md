@@ -9,6 +9,7 @@ This project provides a DM screen for D&D Beyond <https://dndbeyond.com>. This s
 * PHP 7.2 or greater
 * Composer <https://getcomposer.org/>
 * Symfony CLI <https://symfony.com/download> -OR- an existing webserver
+  * If using Symfony CLI, you must have version 4.10.1 or higher
 
 ## Installation
 
