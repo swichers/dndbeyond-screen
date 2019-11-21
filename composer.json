@@ -15,7 +15,7 @@
         "symfony/http-kernel": "4.3.*",
         "symfony/twig-bundle": "4.3.*",
         "symfony/validator": "4.3.*",
-        "symfony/yaml": "4.3.*",
+        "symfony/yaml": "4.4.*",
         "twig/extra-bundle": "^2.12",
         "twig/html-extra": "^2.12"
     },
