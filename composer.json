@@ -22,7 +22,7 @@
     "require-dev": {
         "symfony/maker-bundle": "^1.13",
         "symfony/profiler-pack": "^1.0",
-        "symfony/var-dumper": "4.3.*"
+        "symfony/var-dumper": "4.4.*"
     },
     "config": {
         "preferred-install": {
