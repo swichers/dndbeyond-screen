@@ -56,11 +56,15 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "yarn install",
+            "@frontend:build"
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "frontend:build": "yarn build",
+        "frontend:watch": "yarn build --watch"
     },
     "conflict": {
         "symfony/symfony": "*"
