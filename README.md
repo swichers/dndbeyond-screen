@@ -12,6 +12,7 @@ This project provides a DM screen for D&D Beyond <https://dndbeyond.com>. This s
 * Composer <https://getcomposer.org/>
 * Symfony CLI <https://symfony.com/download> -OR- an existing webserver
   * If using Symfony CLI, you must have version 4.10.1 or higher
+* Yarn <https://yarnpkg.com/lang/en/docs/install/>
 
 ## Installation
 
@@ -22,7 +23,7 @@ composer install
 symfony serve
 ```
 
-If not using the Symfony CLI then you must configure your webserver to point to the project folder. After the site is accessible, open it in your browser.
+If you are not using the Symfony CLI then you must set up whichever webserver you plan on using. Running `composer install` should also build the required frontend assets for the project. After the project has finished building, and the site is accessible, open it in your browser.
 
 ## Usage
 
