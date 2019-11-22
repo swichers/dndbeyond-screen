@@ -12,7 +12,7 @@
         "symfony/form": "4.3.*",
         "symfony/framework-bundle": "4.3.*",
         "symfony/http-client": "4.3.*",
-        "symfony/http-kernel": "4.3.*",
+        "symfony/http-kernel": "4.4.*",
         "symfony/twig-bundle": "4.3.*",
         "symfony/validator": "4.3.*",
         "symfony/yaml": "4.4.*",
