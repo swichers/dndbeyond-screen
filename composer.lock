@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eda71db2d7347ab25fa314db4df2b5b6",
+    "content-hash": "80c2d7368b60a85dc7eb0dfb61fbc981",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2848,16 +2848,16 @@
         },
         {
             "name": "twig/html-extra",
-            "version": "v2.12.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/html-extra.git",
-                "reference": "77521080335cd4f32ca31b776d4d9ea73d4eadf8"
+                "reference": "2bd7929fc1c9987fb77dd2cb2b0e054507ee2480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/html-extra/zipball/77521080335cd4f32ca31b776d4d9ea73d4eadf8",
-                "reference": "77521080335cd4f32ca31b776d4d9ea73d4eadf8",
+                "url": "https://api.github.com/repos/twigphp/html-extra/zipball/2bd7929fc1c9987fb77dd2cb2b0e054507ee2480",
+                "reference": "2bd7929fc1c9987fb77dd2cb2b0e054507ee2480",
                 "shasum": ""
             },
             "require": {
@@ -2871,7 +2871,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.12-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -2897,7 +2897,7 @@
                 "html",
                 "twig"
             ],
-            "time": "2019-10-17T07:27:07+00:00"
+            "time": "2019-10-17T07:30:08+00:00"
         },
         {
             "name": "twig/twig",

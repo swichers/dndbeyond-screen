@@ -18,7 +18,7 @@
         "symfony/yaml": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.7",
         "twig/extra-bundle": "^2.12",
-        "twig/html-extra": "^2.12"
+        "twig/html-extra": "^3.0"
     },
     "require-dev": {
         "localheinz/composer-normalize": "^1.3",
