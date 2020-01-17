@@ -21,7 +21,7 @@
       <div class="row sheet">
         {% for character in characters %}
           <div class="col-xl-3 col-md-4 mb-2">
-            {% include 'sheet/character-card/character-card.html.twig' with {'character': character} only %}
+            {% include 'sheet/character-card/character-card.html.twig' with {'character': character, 'resp_headers': resp_headers} only %}
           </div>
         {% endfor %}
       </div>

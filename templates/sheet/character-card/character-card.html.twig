@@ -4,6 +4,7 @@
   data-character-name="{{ character.name|e }}"
   data-character-id="{{ character.id }}"
   data-last-rendered="{{ 'now'|date('U') }}"
+  data-last-requested="{{ resp_headers['date'][0]|date('U') }}"
 >
 
   <header class="card-header bg-dark text-light border-0 p-0">
@@ -15,7 +16,7 @@
   </div>
 
   <footer class="card-footer text-muted">
-    {% include 'sheet/character-card/character-card--footer.html.twig' with {'character': character} only %}
+    {% include 'sheet/character-card/character-card--footer.html.twig' with {'character': character, 'resp_headers': resp_headers} only %}
   </footer>
 </div>
 

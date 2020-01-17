@@ -1,12 +1,20 @@
-<div class="row">
+<div class="row small">
   {% for class in character.classes %}
-    <div class="col text-nowrap"><small>
+    <div class="col text-nowrap">
         {% if class.subclassDefinition.name is defined %}
           {{ class.subclassDefinition.name }},
         {% endif %}
         {{ class.definition.name }} <span
           class="badge badge-info"
-        >{{ class.level }}</span></small>
+        >{{ class.level }}</span>
     </div>
   {% endfor %}
+</div>
+<div class="row small">
+  <div class="col-6">
+    Checked: <span class="last-checked timeago" datetime="{{ 'now'|date('U') }}">Just now</span>
+  </div>
+  <div class="col-6 text-right">
+    Age: <span class="last-requested timeago" datetime="{{ resp_headers['date'][0]|date('U') }}">{{ resp_headers['date'][0]|date('U') }}</span>
+  </div>
 </div>

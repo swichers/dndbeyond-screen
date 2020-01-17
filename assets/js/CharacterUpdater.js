@@ -10,11 +10,13 @@ export default class CharacterUpdater {
    *
    * @param {int} characterId
    *   The character Id to monitor.
+   * @param {int} waitMs
+   *   The time between refreshes (in milliseconds).
    */
-  constructor(characterId) {
+  constructor(characterId, waitMs = 3 * 60 * 1000) {
     this.characterId = characterId;
-    // The default time to wait between updates (5min).
-    this.timerInterval = 5 * 60 * 1000;
+    // The default time to wait between updates (3min).
+    this.timerInterval = waitMs || 3 * 60 * 1000;
 
     this.startTimer();
   }
@@ -25,7 +27,7 @@ export default class CharacterUpdater {
    * @returns {boolean}
    *   TRUE if an update was initiated, FALSE otherwise.
    */
-  update() {
+  updateCard() {
 
     if ( ! this.getCard()) {
       return false;
@@ -62,7 +64,18 @@ export default class CharacterUpdater {
   onLoaded(data) {
     let card = this.getCard();
     if (card) {
-      card.outerHTML = data;
+      card.querySelector('.load-status').classList.add('d-none');
+
+      let new_card_wrapper = document.createElement('div');
+      new_card_wrapper.innerHTML = data;
+      let new_card = new_card_wrapper.firstChild;
+
+      let new_requested = new_card.getAttribute('data-last-requested');
+      let last_requested = card.getAttribute('data-last-requested');
+
+      if (last_requested !== new_requested) {
+        card.outerHTML = data;
+      }
     }
   }
 
@@ -73,6 +86,8 @@ export default class CharacterUpdater {
     let card = this.getCard();
     if (card) {
       card.querySelector('.load-status').classList.remove('d-none');
+
+      card.querySelector('.last-checked').setAttribute('datetime', Math.floor(new Date().getTime() / 1000));
     }
   }
 
@@ -98,14 +113,14 @@ export default class CharacterUpdater {
    * Start the update timer.
    */
   startTimer() {
-    this.timerId = setInterval(() => this.update(), this.timerInterval);
+    this.timerCardId = setInterval(() => this.updateCard(), this.timerInterval);
   }
 
   /**
    * Stop the update timer.
    */
   stopTimer() {
-    clearInterval(this.timerId);
+    clearInterval(this.timerCardId);
   }
 
   /**

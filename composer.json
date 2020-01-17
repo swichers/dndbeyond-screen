@@ -1,6 +1,6 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "license": "LGPL-3.0",
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
@@ -15,10 +15,11 @@
         "symfony/http-kernel": "4.3.*",
         "symfony/twig-bundle": "4.3.*",
         "symfony/validator": "4.3.*",
-        "symfony/yaml": "4.4.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "twig/extra-bundle": "^2.12",
-        "twig/html-extra": "^2.12"
+        "symfony/yaml": "4.4.*",
+        "twig/extensions": "^1.5",
+        "twig/extra-bundle": "^3.0",
+        "twig/html-extra": "^3.0"
     },
     "require-dev": {
         "localheinz/composer-normalize": "^1.3",

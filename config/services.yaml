@@ -29,3 +29,8 @@ services:
     App\Service\DndBeyondClientService:
         factory: ['App\Service\DndBeyondClientFactory', 'create']
         arguments: ['%kernel.cache_dir%', 300]
+
+    twig.extension.date:
+        class: Twig_Extensions_Extension_Date
+        tags:
+            - { name: twig.extension }

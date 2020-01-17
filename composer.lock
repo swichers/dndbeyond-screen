@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eda71db2d7347ab25fa314db4df2b5b6",
+    "content-hash": "4db8510fe845603f39658928bf27393b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2788,17 +2788,72 @@
             "time": "2019-12-10T10:33:21+00:00"
         },
         {
-            "name": "twig/extra-bundle",
-            "version": "v2.12.2",
+            "name": "twig/extensions",
+            "version": "v1.5.4",
             "source": {
                 "type": "git",
-                "url": "https://github.com/twigphp/twig-extra-bundle.git",
-                "reference": "331db0bf52680bf13f35c50b17330323fcca04d9"
+                "url": "https://github.com/twigphp/Twig-extensions.git",
+                "reference": "57873c8b0c1be51caa47df2cdb824490beb16202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/twig-extra-bundle/zipball/331db0bf52680bf13f35c50b17330323fcca04d9",
-                "reference": "331db0bf52680bf13f35c50b17330323fcca04d9",
+                "url": "https://api.github.com/repos/twigphp/Twig-extensions/zipball/57873c8b0c1be51caa47df2cdb824490beb16202",
+                "reference": "57873c8b0c1be51caa47df2cdb824490beb16202",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "^1.27|^2.0"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^3.4",
+                "symfony/translation": "^2.7|^3.4"
+            },
+            "suggest": {
+                "symfony/translation": "Allow the time_diff output to be translated"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_Extensions_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\Extensions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Common additional features for Twig that do not directly belong in core",
+            "keywords": [
+                "i18n",
+                "text"
+            ],
+            "time": "2018-12-05T18:34:18+00:00"
+        },
+        {
+            "name": "twig/extra-bundle",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/twig-extra-bundle.git",
+                "reference": "c56821429490e351003a09b7ed0c917feec2355f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/twig-extra-bundle/zipball/c56821429490e351003a09b7ed0c917feec2355f",
+                "reference": "c56821429490e351003a09b7ed0c917feec2355f",
                 "shasum": ""
             },
             "require": {
@@ -2817,7 +2872,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.12-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -2844,20 +2899,20 @@
                 "extra",
                 "twig"
             ],
-            "time": "2019-10-17T07:27:12+00:00"
+            "time": "2019-10-17T07:30:08+00:00"
         },
         {
             "name": "twig/html-extra",
-            "version": "v2.12.2",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/html-extra.git",
-                "reference": "77521080335cd4f32ca31b776d4d9ea73d4eadf8"
+                "reference": "2bd7929fc1c9987fb77dd2cb2b0e054507ee2480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/html-extra/zipball/77521080335cd4f32ca31b776d4d9ea73d4eadf8",
-                "reference": "77521080335cd4f32ca31b776d4d9ea73d4eadf8",
+                "url": "https://api.github.com/repos/twigphp/html-extra/zipball/2bd7929fc1c9987fb77dd2cb2b0e054507ee2480",
+                "reference": "2bd7929fc1c9987fb77dd2cb2b0e054507ee2480",
                 "shasum": ""
             },
             "require": {
@@ -2871,7 +2926,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.12-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -2897,7 +2952,7 @@
                 "html",
                 "twig"
             ],
-            "time": "2019-10-17T07:27:07+00:00"
+            "time": "2019-10-17T07:30:08+00:00"
         },
         {
             "name": "twig/twig",

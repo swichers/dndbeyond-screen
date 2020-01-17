@@ -3,6 +3,7 @@
 require('../css/app.css');
 
 import CharacterUpdater from './CharacterUpdater';
+import TimeSince from './TimeSince';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -26,7 +27,9 @@ $(document).ready(() => {
   let character_updaters = {};
   // Start the automatic refreshing for all available characters.
   document.querySelectorAll('.character[data-character-id]').forEach((card) => {
-    let character_id = card.getAttribute('data-character-id');
+    let character_id = parseInt(card.getAttribute('data-character-id'));
     character_updaters[character_id] = new CharacterUpdater(character_id);
   });
+
+  (new TimeSince());
 });
