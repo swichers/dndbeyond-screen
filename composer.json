@@ -1,6 +1,6 @@
 {
+    "name": "swichers/dndbeyond-screen",
     "type": "project",
-    "name":"swichers/dndbeyond-screen",
     "description": "A D&D Beyond DM screen to provide a way to monitor characters in a campaign.",
     "license": "LGPL-3.0-or-later",
     "require": {
@@ -23,8 +23,19 @@
         "twig/extra-bundle": "^3.0",
         "twig/html-extra": "^3.0"
     },
+    "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php56": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php71": "*"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
     "require-dev": {
-        "localheinz/composer-normalize": "^1.3",
+        "ergebnis/composer-normalize": "^2.2",
         "symfony/maker-bundle": "^1.13",
         "symfony/profiler-pack": "^1.0",
         "symfony/var-dumper": "4.4.*"
@@ -34,6 +45,12 @@
             "*": "dist"
         },
         "sort-packages": true
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+            "require": "4.3.*"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -45,19 +62,7 @@
             "App\\Tests\\": "tests/"
         }
     },
-    "replace": {
-        "paragonie/random_compat": "2.*",
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php71": "*",
-        "symfony/polyfill-php70": "*",
-        "symfony/polyfill-php56": "*"
-    },
     "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
         "post-install-cmd": [
             "@auto-scripts",
             "yarn install",
@@ -66,16 +71,11 @@
         "post-update-cmd": [
             "@auto-scripts"
         ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
         "frontend:build": "yarn build",
         "frontend:watch": "yarn build --watch"
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "4.3.*"
-        }
     }
 }
