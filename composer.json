@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "name":"swichers/dndbeyond-screen",
+    "description": "A D&D Beyond DM screen to provide a way to monitor characters in a campaign.",
     "license": "LGPL-3.0-or-later",
     "require": {
         "php": "^7.1.3",
